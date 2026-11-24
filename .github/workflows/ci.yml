@@ -1,0 +1,43 @@
+name: CI
+
+# One job: typecheck, the whole vitest suite (the headless-Chromium widget tests, the leak
+# test and the private-name scan are in it), the eval gate, and the private-name scan run
+# on its own over every tracked file and commit message. Actions are pinned to commit SHAs.
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: Check
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - name: Headless Chromium for the widget tests
+        run: npx playwright install --with-deps chromium
+      - name: Vendor the ONNX runtime the widget tests load
+        run: npm run gen-runtime
+      - run: npx vitest run
+      - name: Eval gate
+        run: npx tsx cli/steve.ts eval-gate registry/examples/ops-dashboard.registry.json --artifacts examples/demo-dashboard/steve/model
+      - name: Private-name scan (every tracked file and commit message)
+        run: npm run private-scan

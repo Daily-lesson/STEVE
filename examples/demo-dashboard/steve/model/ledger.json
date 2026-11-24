@@ -1,0 +1,108 @@
+{
+  "version": "0.2.0",
+  "app": "ops-dashboard",
+  "onnx": {
+    "file": "ops-dashboard-0.2.0.onnx",
+    "sha256": "58addaee8c5a67aa8cb1f4b8ef6d48b83ba9de968c16e2c8a821964e79fefcf0",
+    "bytes": 624975,
+    "quantized": true
+  },
+  "tokenizer": {
+    "file": "ops-dashboard-0.2.0.tokenizer.json",
+    "sha256": "5f53b547c4f3be8b5bd39d97dc7cbda1d7e703be81f723d03e392200546cf49c"
+  },
+  "labels": {
+    "file": "ops-dashboard-0.2.0.labels.json",
+    "sha256": "d78137e62677086fd2f965d9c9b39a04b135aaa29d6d9539401d65a26faf4ea2"
+  },
+  "trainedFrom": {
+    "registryHash": "6f4f51108c4ddbab5468cc425a463aa2fece60109a8ca631bc7229dc1a20e2eb",
+    "datasetHash": "f7a2b846682edde6edd84e126a24a59be0489b6ce4d175de97ad2f97e6b16e8e",
+    "seed": 42,
+    "split": {
+      "train": 4975,
+      "val": 1066,
+      "test": 1066
+    }
+  },
+  "modelConfig": {
+    "vocabSize": 581,
+    "maxLen": 27,
+    "embedDim": 128,
+    "gruHidden": 96,
+    "numIntents": 15,
+    "numSlotLabels": 7,
+    "paramCount": 225878,
+    "epochs": 80
+  },
+  "metrics": {
+    "inDistribution": {
+      "intentAccuracy": 0.9803001876172608,
+      "macroF1": 0.9778057587118086,
+      "perIntentF1": {
+        "create_ticket": 0.989247311827957,
+        "find_reports": 0.9953488372093023,
+        "book_room": 0.9826589595375722,
+        "manage_users": 0.9672131147540983,
+        "connect_integrations": 0.9565217391304348,
+        "export_data": 1.0,
+        "set_notifications": 0.9850746268656716,
+        "view_invoices": 0.9935483870967742,
+        "run_setup": 0.9714285714285714,
+        "open_tickets_status": 0.9870129870129869,
+        "room_availability": 0.9714285714285714,
+        "invoice_status": 0.9772727272727273,
+        "system_health": 0.9428571428571428,
+        "greeting": 0.96875,
+        "out_of_domain": 0.9787234042553192
+      },
+      "slotF1": 0.9990128331688055,
+      "slotPrecision": 0.9980276134122288,
+      "slotRecall": 1.0,
+      "perSlotF1": {
+        "O": 0.9998926923489645,
+        "region": 1.0,
+        "department": 1.0,
+        "period": 0.9974747474747475
+      }
+    },
+    "heldout": {
+      "intentAccuracy": 0.9545454545454546,
+      "n": 44,
+      "perIntentAccuracy": {
+        "create_ticket": 0.6666666666666666,
+        "find_reports": 1.0,
+        "book_room": 1.0,
+        "manage_users": 1.0,
+        "connect_integrations": 1.0,
+        "export_data": 1.0,
+        "set_notifications": 0.6666666666666666,
+        "view_invoices": 1.0,
+        "run_setup": 1.0,
+        "open_tickets_status": 1.0,
+        "room_availability": 1.0,
+        "invoice_status": 1.0,
+        "system_health": 1.0,
+        "greeting": 1.0,
+        "out_of_domain": 1.0
+      },
+      "confusionTopMisses": [
+        {
+          "gold": "create_ticket",
+          "pred": "out_of_domain",
+          "count": 1
+        },
+        {
+          "gold": "set_notifications",
+          "pred": "create_ticket",
+          "count": 1
+        }
+      ]
+    }
+  },
+  "acceptanceFloor": {
+    "inDistributionIntentAccuracy": 0.9,
+    "inDistributionSlotF1": 0.9,
+    "heldoutIntentAccuracy": 0.85
+  }
+}
